@@ -1,8 +1,17 @@
-ARG COG_REPO
-ARG COG_MODEL
-ARG COG_VERSION
+FROM python:3.9-cuda11.8-devel
 
-FROM r8.im/${COG_REPO}/${COG_MODEL}@sha256:${COG_VERSION}
+# Clone et build votre repo AuraSR
+RUN git clone https://github.com/Cichelg/cog-aura-sr-v2.git /cog-aura-sr-v2
+WORKDIR /cog-aura-sr-v2
+
+# Install Cog
+RUN curl -o /usr/local/bin/cog -L https://github.com/replicate/cog/releases/latest/download/cog_Linux_x86_64
+RUN chmod +x /usr/local/bin/cog
+
+# Build the Cog model
+RUN cog build
+
+WORKDIR /
 
 ENV RUNPOD_REQUEST_TIMEOUT=600
 
