@@ -2,12 +2,7 @@ ARG COG_REPO
 ARG COG_MODEL
 ARG COG_VERSION
 
-FROM cog-base
-
-# Clone and setup AuraSR
-RUN git clone https://github.com/Cichelg/cog-aura-sr-v2.git /app
-WORKDIR /app
-RUN pip install -r requirements.txt
+FROM r8.im/${COG_REPO}/${COG_MODEL}@sha256:${COG_VERSION}
 
 ENV RUNPOD_REQUEST_TIMEOUT=600
 
